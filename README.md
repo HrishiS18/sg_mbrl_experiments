@@ -45,6 +45,7 @@ Methods:
 - `Random`.
 
 The full run status and resume commands are documented in [docs/FIVE_SEED_HEADLINE_RUN.md](docs/FIVE_SEED_HEADLINE_RUN.md).
+Cloud setup and CUDA launch instructions are documented in [docs/CLOUD_RUN_GUIDE.md](docs/CLOUD_RUN_GUIDE.md).
 
 ## Quick Start
 

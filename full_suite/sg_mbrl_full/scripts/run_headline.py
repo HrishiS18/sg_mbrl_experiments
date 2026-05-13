@@ -4,7 +4,7 @@ import argparse
 import copy
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -38,14 +38,35 @@ def method_to_cem(method: Dict[str, Any], base_cem_cfg: Dict[str, Any]) -> CEMCo
     return CEMConfig(**cfg)
 
 
+def row_key(row: Dict[str, Any]) -> Tuple[str, str, str, int, int, str]:
+    return (
+        str(row["env"]),
+        str(row["task"]),
+        str(row["graph"]),
+        int(row["seed"]),
+        int(row["budget"]),
+        str(row["method"]),
+    )
+
+
+def load_records(path: Path) -> List[Dict[str, Any]]:
+    if not path.exists():
+        return []
+    return pd.read_csv(path).to_dict("records")
+
+
 def run(config: Dict[str, Any]) -> Path:
     run_dir = ensure_dir(config["run_dir"])
     raw_dir = ensure_dir(run_dir / "raw")
     save_json(run_dir / "config.resolved.json", config)
 
-    rows: List[Dict[str, Any]] = []
-    diag_rows: List[Dict[str, Any]] = []
-    param_rows: List[Dict[str, Any]] = []
+    metrics_path = raw_dir / "headline_metrics.csv"
+    diagnostics_path = raw_dir / "rollout_diagnostics.csv"
+    params_path = raw_dir / "parameter_logs.csv"
+    rows: List[Dict[str, Any]] = load_records(metrics_path)
+    diag_rows: List[Dict[str, Any]] = load_records(diagnostics_path)
+    param_rows: List[Dict[str, Any]] = load_records(params_path)
+    completed = {row_key(r) for r in rows if str(r.get("status", "")) == "ok"}
     seeds = config["seeds"]
     budgets = config["budgets"]
     methods = config["methods"]
@@ -67,6 +88,17 @@ def run(config: Dict[str, Any]) -> Path:
             for budget in budgets:
                 train_data = data[:budget]
                 for method_name, method in methods.items():
+                    planned_key = (
+                        env_cfg.env_id,
+                        env_cfg.task,
+                        env_cfg.graph,
+                        seed,
+                        budget,
+                        method_name,
+                    )
+                    if planned_key in completed:
+                        print(f"{env_cfg.env_id}/{env_cfg.task} seed={seed} budget={budget} method={method_name} status=skipped")
+                        continue
                     status = "ok"
                     t0 = time.time()
                     if method.get("type") == "no_control":
@@ -158,10 +190,10 @@ def run(config: Dict[str, Any]) -> Path:
                             "status": status,
                         }
                     )
-                    pd.DataFrame(rows).to_csv(raw_dir / "headline_metrics.csv", index=False)
+                    pd.DataFrame(rows).to_csv(metrics_path, index=False)
                     if diag_rows:
-                        pd.DataFrame(diag_rows).to_csv(raw_dir / "rollout_diagnostics.csv", index=False)
-                    pd.DataFrame(param_rows).to_csv(raw_dir / "parameter_logs.csv", index=False)
+                        pd.DataFrame(diag_rows).to_csv(diagnostics_path, index=False)
+                    pd.DataFrame(param_rows).to_csv(params_path, index=False)
                     print(f"{env_cfg.env_id}/{env_cfg.task} seed={seed} budget={budget} method={method_name} status={status}")
     return run_dir
 
@@ -176,4 +208,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
