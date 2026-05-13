@@ -1,0 +1,6 @@
+method,env,seed,budget,parameters,train_logs,status
+SG-MBRL,duffing_chain,0,32,263,"[{'best_val_mse': 0.00017549889162182808, 'epochs_ran': 2, 'final_loss': 0.00017549889162182808}]",ok
+DirectGNN-MPC,duffing_chain,0,32,322,"[{'best_val_mse': 0.020209545269608498, 'epochs_ran': 2, 'final_loss': 0.020209545269608498}]",ok
+PETS-DirectGNN,duffing_chain,0,32,644,"[{'best_val_mse': 0.056662511080503464, 'epochs_ran': 2, 'final_loss': 0.056662511080503464}, {'best_val_mse': 0.05225241184234619, 'epochs_ran': 2, 'final_loss': 0.05225241184234619}]",ok
+NoControl,duffing_chain,0,32,0,[],ok
+Random,duffing_chain,0,32,0,[],ok

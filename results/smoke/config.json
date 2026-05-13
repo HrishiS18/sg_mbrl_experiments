@@ -1,0 +1,43 @@
+{
+  "seeds": [
+    0,
+    1
+  ],
+  "budgets": [
+    64,
+    256
+  ],
+  "control_horizon": 25,
+  "eval_episodes": 4,
+  "train_rollout_horizon": 100,
+  "cem_population": 48,
+  "cem_iterations": 3,
+  "cem_elite_frac": 0.12,
+  "planning_horizons": [
+    1,
+    5,
+    10
+  ],
+  "graph_transfer_train_sizes": [
+    4,
+    8,
+    16
+  ],
+  "graph_transfer_test_sizes": [
+    32,
+    64
+  ],
+  "rollout_horizons": [
+    1,
+    10,
+    50,
+    100
+  ],
+  "dt": 0.05,
+  "omega2": 1.0,
+  "spring_k": 0.5,
+  "action_limit": 2.0,
+  "ridge": 1e-05,
+  "ensemble_size": 5,
+  "train_noise_std": 0.0
+}

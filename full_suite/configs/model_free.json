@@ -1,0 +1,65 @@
+{
+  "run_dir": "results/model_free",
+  "seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "budgets": [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000],
+  "horizon": 50,
+  "eval_episodes": 50,
+  "envs": [
+    {
+      "env_id": "linear_oscillator",
+      "task": "stabilization",
+      "n": 8,
+      "dim": 1,
+      "graph": "chain",
+      "dt": 0.05,
+      "action_limit": 2.0
+    },
+    {
+      "env_id": "duffing_chain",
+      "task": "target",
+      "n": 8,
+      "dim": 1,
+      "graph": "chain",
+      "dt": 0.05,
+      "action_limit": 2.0,
+      "target_pattern": "sine"
+    },
+    {
+      "env_id": "lennard_jones",
+      "task": "formation",
+      "n": 8,
+      "dim": 2,
+      "graph": "geometric",
+      "dt": 0.025,
+      "action_limit": 1.5,
+      "target_pattern": "circle"
+    }
+  ],
+  "methods": {
+    "SAC": {
+      "agent_kwargs": {
+        "learning_rate": 0.0003,
+        "batch_size": 256,
+        "buffer_size": 1000000,
+        "gamma": 0.99
+      }
+    },
+    "TD3": {
+      "agent_kwargs": {
+        "learning_rate": 0.001,
+        "batch_size": 256,
+        "buffer_size": 1000000,
+        "gamma": 0.99
+      }
+    },
+    "PPO": {
+      "agent_kwargs": {
+        "learning_rate": 0.0003,
+        "batch_size": 256,
+        "n_steps": 2048,
+        "gamma": 0.99
+      }
+    }
+  }
+}
+

@@ -1,0 +1,86 @@
+{
+  "budgets": [
+    32
+  ],
+  "cem_defaults": {
+    "device": "cpu",
+    "elite_frac": 0.25,
+    "horizon": 3,
+    "iterations": 2,
+    "population": 16
+  },
+  "diagnostics_episodes": 2,
+  "envs": [
+    {
+      "action_limit": 2.0,
+      "dim": 1,
+      "dt": 0.05,
+      "env_id": "duffing_chain",
+      "graph": "chain",
+      "n": 4,
+      "target_pattern": "sine",
+      "task": "stabilization"
+    }
+  ],
+  "eval": {
+    "control_horizon": 5,
+    "episodes": 2,
+    "success_threshold": 0.05
+  },
+  "methods": {
+    "DirectGNN-MPC": {
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 1
+      },
+      "type": "mpc"
+    },
+    "NoControl": {
+      "type": "no_control"
+    },
+    "PETS-DirectGNN": {
+      "cem": {
+        "uncertainty_coef": 0.1,
+        "uncertainty_mode": "penalty"
+      },
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 2
+      },
+      "type": "mpc"
+    },
+    "Random": {
+      "type": "random"
+    },
+    "SG-MBRL": {
+      "model_type": "residual_symp_gnn",
+      "train": {
+        "ensemble_size": 1
+      },
+      "type": "mpc"
+    }
+  },
+  "model_defaults": {
+    "depth": 2,
+    "hidden": 32,
+    "predict_delta": true,
+    "residual_scale": 0.03
+  },
+  "rollout_horizons": [
+    1,
+    5,
+    10
+  ],
+  "run_diagnostics": true,
+  "run_dir": "results/smoke",
+  "seeds": [
+    0
+  ],
+  "train_defaults": {
+    "batch_size": 16,
+    "device": "cpu",
+    "epochs": 2,
+    "lr": 0.002,
+    "patience": 2
+  }
+}

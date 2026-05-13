@@ -1,0 +1,154 @@
+{
+  "run_dir": "results/headline_20260511_201112",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "budgets": [
+    1000,
+    2500,
+    5000,
+    10000,
+    25000,
+    50000,
+    100000
+  ],
+  "run_diagnostics": true,
+  "diagnostics_episodes": 32,
+  "rollout_horizons": [
+    1,
+    10,
+    25,
+    50,
+    100,
+    250,
+    500
+  ],
+  "envs": [
+    {
+      "env_id": "linear_oscillator",
+      "task": "stabilization",
+      "n": 8,
+      "dim": 1,
+      "graph": "chain",
+      "dt": 0.05,
+      "action_limit": 2.0
+    },
+    {
+      "env_id": "duffing_chain",
+      "task": "target",
+      "n": 8,
+      "dim": 1,
+      "graph": "chain",
+      "dt": 0.05,
+      "action_limit": 2.0,
+      "target_pattern": "sine"
+    },
+    {
+      "env_id": "lennard_jones",
+      "task": "formation",
+      "n": 8,
+      "dim": 2,
+      "graph": "geometric",
+      "dt": 0.025,
+      "action_limit": 1.5,
+      "target_pattern": "circle",
+      "lj_epsilon": 0.04,
+      "lj_sigma": 0.35,
+      "lj_softening": 0.08
+    }
+  ],
+  "model_defaults": {
+    "hidden": 128,
+    "depth": 3,
+    "residual_scale": 0.05,
+    "predict_delta": true
+  },
+  "train_defaults": {
+    "epochs": 150,
+    "batch_size": 128,
+    "lr": 0.002,
+    "weight_decay": 1e-05,
+    "grad_clip": 5.0,
+    "patience": 25,
+    "device": "mps"
+  },
+  "cem_defaults": {
+    "horizon": 10,
+    "population": 512,
+    "iterations": 5,
+    "elite_frac": 0.12,
+    "gamma": 1.0,
+    "device": "mps"
+  },
+  "eval": {
+    "episodes": 50,
+    "control_horizon": 50,
+    "success_threshold": 0.05
+  },
+  "methods": {
+    "SG-MBRL": {
+      "type": "mpc",
+      "model_type": "residual_symp_gnn",
+      "train": {
+        "ensemble_size": 5,
+        "bootstrap": true
+      },
+      "cem": {
+        "uncertainty_coef": 0.02,
+        "uncertainty_mode": "penalty"
+      }
+    },
+    "DirectGNN-MPC": {
+      "type": "mpc",
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 1
+      }
+    },
+    "PETS-DirectGNN": {
+      "type": "mpc",
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 5,
+        "bootstrap": true
+      },
+      "cem": {
+        "uncertainty_coef": 0.05,
+        "uncertainty_mode": "penalty"
+      }
+    },
+    "MBPO-SAC": {
+      "type": "mbpo_sac",
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 5,
+        "bootstrap": true
+      },
+      "policy_train_steps": 10000
+    },
+    "HNN-MPC": {
+      "type": "mpc",
+      "model_type": "symp_no_graph",
+      "train": {
+        "ensemble_size": 1
+      }
+    },
+    "MLP-MPC": {
+      "type": "mpc",
+      "model_type": "mlp_next",
+      "train": {
+        "ensemble_size": 1
+      }
+    },
+    "NoControl": {
+      "type": "no_control"
+    },
+    "Random": {
+      "type": "random"
+    }
+  }
+}

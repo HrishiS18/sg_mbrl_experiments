@@ -1,0 +1,6 @@
+env,task,method,seed,samples_to_threshold
+duffing_chain,stabilization,DirectGNN-MPC,0,
+duffing_chain,stabilization,NoControl,0,
+duffing_chain,stabilization,PETS-DirectGNN,0,
+duffing_chain,stabilization,Random,0,
+duffing_chain,stabilization,SG-MBRL,0,

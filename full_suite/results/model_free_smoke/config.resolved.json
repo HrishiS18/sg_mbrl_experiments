@@ -1,0 +1,32 @@
+{
+  "budgets": [
+    16
+  ],
+  "envs": [
+    {
+      "action_limit": 2.0,
+      "dim": 1,
+      "dt": 0.05,
+      "env_id": "duffing_chain",
+      "graph": "chain",
+      "n": 4,
+      "task": "stabilization"
+    }
+  ],
+  "eval_episodes": 1,
+  "horizon": 3,
+  "methods": {
+    "SAC": {
+      "agent_kwargs": {
+        "batch_size": 8,
+        "buffer_size": 1000,
+        "learning_rate": 0.0003,
+        "learning_starts": 1
+      }
+    }
+  },
+  "run_dir": "results/model_free_smoke",
+  "seeds": [
+    0
+  ]
+}

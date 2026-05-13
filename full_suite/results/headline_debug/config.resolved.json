@@ -1,0 +1,154 @@
+{
+  "budgets": [
+    1000,
+    2500,
+    5000,
+    10000,
+    25000,
+    50000,
+    100000
+  ],
+  "cem_defaults": {
+    "device": "mps",
+    "elite_frac": 0.12,
+    "gamma": 1.0,
+    "horizon": 10,
+    "iterations": 5,
+    "population": 512
+  },
+  "diagnostics_episodes": 32,
+  "envs": [
+    {
+      "action_limit": 2.0,
+      "dim": 1,
+      "dt": 0.05,
+      "env_id": "linear_oscillator",
+      "graph": "chain",
+      "n": 8,
+      "task": "stabilization"
+    },
+    {
+      "action_limit": 2.0,
+      "dim": 1,
+      "dt": 0.05,
+      "env_id": "duffing_chain",
+      "graph": "chain",
+      "n": 8,
+      "target_pattern": "sine",
+      "task": "target"
+    },
+    {
+      "action_limit": 1.5,
+      "dim": 2,
+      "dt": 0.025,
+      "env_id": "lennard_jones",
+      "graph": "geometric",
+      "lj_epsilon": 0.04,
+      "lj_sigma": 0.35,
+      "lj_softening": 0.08,
+      "n": 8,
+      "target_pattern": "circle",
+      "task": "formation"
+    }
+  ],
+  "eval": {
+    "control_horizon": 50,
+    "episodes": 50,
+    "success_threshold": 0.05
+  },
+  "methods": {
+    "DirectGNN-MPC": {
+      "model_type": "direct_gnn",
+      "train": {
+        "ensemble_size": 1
+      },
+      "type": "mpc"
+    },
+    "HNN-MPC": {
+      "model_type": "symp_no_graph",
+      "train": {
+        "ensemble_size": 1
+      },
+      "type": "mpc"
+    },
+    "MBPO-SAC": {
+      "model_type": "direct_gnn",
+      "policy_train_steps": 10000,
+      "train": {
+        "bootstrap": true,
+        "ensemble_size": 5
+      },
+      "type": "mbpo_sac"
+    },
+    "MLP-MPC": {
+      "model_type": "mlp_next",
+      "train": {
+        "ensemble_size": 1
+      },
+      "type": "mpc"
+    },
+    "NoControl": {
+      "type": "no_control"
+    },
+    "PETS-DirectGNN": {
+      "cem": {
+        "uncertainty_coef": 0.05,
+        "uncertainty_mode": "penalty"
+      },
+      "model_type": "direct_gnn",
+      "train": {
+        "bootstrap": true,
+        "ensemble_size": 5
+      },
+      "type": "mpc"
+    },
+    "Random": {
+      "type": "random"
+    },
+    "SG-MBRL": {
+      "cem": {
+        "uncertainty_coef": 0.02,
+        "uncertainty_mode": "penalty"
+      },
+      "model_type": "residual_symp_gnn",
+      "train": {
+        "bootstrap": true,
+        "ensemble_size": 5
+      },
+      "type": "mpc"
+    }
+  },
+  "model_defaults": {
+    "depth": 3,
+    "hidden": 128,
+    "predict_delta": true,
+    "residual_scale": 0.05
+  },
+  "rollout_horizons": [
+    1,
+    10,
+    25,
+    50,
+    100,
+    250,
+    500
+  ],
+  "run_diagnostics": true,
+  "run_dir": "results/headline_debug",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "train_defaults": {
+    "batch_size": 128,
+    "device": "mps",
+    "epochs": 150,
+    "grad_clip": 5.0,
+    "lr": 0.002,
+    "patience": 25,
+    "weight_decay": 1e-05
+  }
+}

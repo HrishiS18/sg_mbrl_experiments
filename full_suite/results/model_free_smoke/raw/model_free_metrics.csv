@@ -1,0 +1,2 @@
+env,task,graph,n,dim,seed,budget,method,status,return_mean,return_se,terminal_error_mean,terminal_error_se,success_rate
+duffing_chain,stabilization,chain,4,1,0,16,SAC,ok,-1.6221309629380702,0.0,0.5715556740760803,0.0,0.0

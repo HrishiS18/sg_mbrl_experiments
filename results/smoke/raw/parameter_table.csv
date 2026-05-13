@@ -1,0 +1,6 @@
+Model,Parameters,Hidden width,Graph?,Symplectic?,Uncertainty?
+DenseLinearNext,2|V| x (3|V|+1),n/a,No,No,No
+DirectGraphNext,12,n/a,Yes,No,No
+GraphEuler,12,n/a,Yes,No,No
+SympNoGraph,2,n/a,No edge terms,Yes,No
+SG-Ham+Symp,3,n/a,Yes,Yes,Bootstrap ensemble available

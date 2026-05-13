@@ -1,0 +1,11 @@
+[2026-05-11 20:10:16] Preparing headline config.
+[2026-05-11 20:10:16] Checking dependencies.
+python=3.12.13 platform=macOS-26.3.1-arm64-arm-64bit
+numpy: ok
+pandas: ok
+matplotlib: ok
+torch: ok
+gymnasium: ok
+stable_baselines3: ok
+tqdm: ok
+[2026-05-11 20:10:16] Starting neural headline suite.

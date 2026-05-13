@@ -1,0 +1,66 @@
+{
+  "run_dir": "results/smoke",
+  "seeds": [0],
+  "budgets": [32],
+  "run_diagnostics": true,
+  "diagnostics_episodes": 2,
+  "rollout_horizons": [1, 5, 10],
+  "envs": [
+    {
+      "env_id": "duffing_chain",
+      "task": "stabilization",
+      "n": 4,
+      "dim": 1,
+      "graph": "chain",
+      "dt": 0.05,
+      "action_limit": 2.0,
+      "target_pattern": "sine"
+    }
+  ],
+  "model_defaults": {
+    "hidden": 32,
+    "depth": 2,
+    "residual_scale": 0.03,
+    "predict_delta": true
+  },
+  "train_defaults": {
+    "epochs": 2,
+    "batch_size": 16,
+    "lr": 0.002,
+    "patience": 2,
+    "device": "cpu"
+  },
+  "cem_defaults": {
+    "horizon": 3,
+    "population": 16,
+    "iterations": 2,
+    "elite_frac": 0.25,
+    "device": "cpu"
+  },
+  "eval": {
+    "episodes": 2,
+    "control_horizon": 5,
+    "success_threshold": 0.05
+  },
+  "methods": {
+    "SG-MBRL": {
+      "type": "mpc",
+      "model_type": "residual_symp_gnn",
+      "train": {"ensemble_size": 1}
+    },
+    "DirectGNN-MPC": {
+      "type": "mpc",
+      "model_type": "direct_gnn",
+      "train": {"ensemble_size": 1}
+    },
+    "PETS-DirectGNN": {
+      "type": "mpc",
+      "model_type": "direct_gnn",
+      "train": {"ensemble_size": 2},
+      "cem": {"uncertainty_coef": 0.1, "uncertainty_mode": "penalty"}
+    },
+    "NoControl": {"type": "no_control"},
+    "Random": {"type": "random"}
+  }
+}
+
